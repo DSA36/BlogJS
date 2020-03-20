@@ -3,15 +3,21 @@ import {apiService} from '../services/api.service'
 import {TransformService} from '../services/transform.service'
 
 export class PostComponent extends Component {
-  constructor(id) {
+  constructor(id, {loader}) {
     super(id)
+    this.loader = loader
+  }
+
+  init( ) {
+    this.$el.addEventListener('click', buttonHandler.bind(this) )
   }
 
   async onShow() {
+    this.loader.show()
     const fbData = await apiService.fetchPosts()
     const posts = TransformService.fbObjectToArray(fbData)
     const html = posts.map(post => renderPost(post))
-
+    this.loader.hide()
     this.$el.insertAdjacentHTML('afterbegin', html.join(' '))
   }
 
@@ -21,7 +27,7 @@ export class PostComponent extends Component {
 }
 
 function renderPost(post) {
-  const button = '<button class ="button-round button-small button-primary">Сохранить</button>'
+  const button = `<button class ="button-round button-small button-primary">Сохранить</button>`
   
   return `
     <div class="panel">
@@ -40,4 +46,8 @@ function renderPost(post) {
           </div>
         </div>
   `
+}
+
+function buttonHandler(event) {
+  console.log(event)
 }
