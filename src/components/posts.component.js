@@ -1,6 +1,7 @@
 import { Component } from '../core/component'
 import {apiService} from '../services/api.service'
 import {TransformService} from '../services/transform.service'
+import {renderPost} from '../templates/post.template'
 
 export class PostComponent extends Component {
   constructor(id, {loader}) {
@@ -16,7 +17,7 @@ export class PostComponent extends Component {
     this.loader.show()
     const fbData = await apiService.fetchPosts()
     const posts = TransformService.fbObjectToArray(fbData)
-    const html = posts.map(post => renderPost(post))
+    const html = posts.map(post => renderPost(post, {withButton: true}))
     this.loader.hide()
     this.$el.insertAdjacentHTML('afterbegin', html.join(' '))
   }
@@ -26,28 +27,30 @@ export class PostComponent extends Component {
   }
 }
 
-function renderPost(post) {
-  const button = `<button class ="button-round button-small button-primary">Сохранить</button>`
-  
-  return `
-    <div class="panel">
-          <div class="panel-head">
-            <p class="panel-title">${post.title}</p>
-            <ul class="tags hide">
-              <li class="tag tag-blue tag-rounded">Новость</li>
-            </ul>
-          </div>
-          <div class="panel-body">
-            <p class="multi-line">${post.fulltext}</p>
-          </div>
-          <div class="panel-footer w-panel-footer">
-            <small>${post.date}</small>
-            ${button}
-          </div>
-        </div>
-  `
-}
-
 function buttonHandler(event) {
-  console.log(event)
-}
+  const $el = event.target
+  const id = $el.dataset.id
+  const title = $el.dataset.title
+
+  if (id) {
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || []
+    const candidate = favorites.find(p => p.id === id)
+    
+    if (candidate) {
+      // удалить
+      $el.textContent = 'Сохранить'
+      $el.classList.add('button-primary')
+      $el.classList.remove('button-danger')
+      favorites = favorites.filter(p => p.id !== id)
+    } else {
+      // добавить
+      $el.textContent = 'Удалить'
+      $el.classList.add('button-danger')
+      $el.classList.remove('button-primary')
+      favorites.push({id, title})
+    }
+
+    localStorage.setItem('favorites', JSON.stringify(favorites))
+  }
+   
+} 
