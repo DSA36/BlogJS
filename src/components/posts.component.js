@@ -35,20 +35,29 @@ function buttonHandler(event) {
   const fav = $el.dataset.fav
     
   if (fav) {
+    // если клик по кнопке "избранного"
+    // получаем массив 'favorites' из localStorage или пустой массив
     let favorites = JSON.parse(localStorage.getItem('favorites')) || []
+    // получаем в переменную значение из массива, если id кликнутого поста присутствует в массиве и null, если его там нет 
     const candidateFav = favorites.find(p => p.id === id)
     
     if (candidateFav) {
-      // удалить
+      // значит id поста присутствует в localStorage в массиве 'favorites'
+      // и необходимо удалить пост из избранного и из массива
+      
+      // при этом меняем вид и содержание кнопки:
       $el.textContent = 'Сохранить'
       $el.classList.add('button-primary')
       $el.classList.remove('button-danger')
+
+      // получаем новый массив, исключая из него id текущего поста
       favorites = favorites.filter(p => p.id !== id)
     } else {
       // добавить
       $el.textContent = 'Удалить'
       $el.classList.add('button-danger')
       $el.classList.remove('button-primary')
+      // добавляем в массив объект с данными кликнутого поста
       favorites.push({id, title})
     }
 
