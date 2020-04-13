@@ -31,8 +31,10 @@ function buttonHandler(event) {
   const $el = event.target
   const id = $el.dataset.id
   const title = $el.dataset.title
-
-  if (id) {
+  const arh = $el.dataset.arh
+  const fav = $el.dataset.fav
+    
+  if (fav) {
     let favorites = JSON.parse(localStorage.getItem('favorites')) || []
     const candidate = favorites.find(p => p.id === id)
     
@@ -52,5 +54,26 @@ function buttonHandler(event) {
 
     localStorage.setItem('favorites', JSON.stringify(favorites))
   }
+
+  if (arh) {
+    let arhives = JSON.parse(localStorage.getItem('arhives')) || []
+    const candidate = arhives.find(p => p.id === id)
+    
+    if (candidate) {
+      // удалить
+      $el.textContent = 'В архив'
+      $el.classList.add('button-primary')
+      $el.classList.remove('button-danger')
+      arhives = arhives.filter(p => p.id !== id)
+    } else {
+      // добавить
+      $el.textContent = 'Из архива'
+      $el.classList.add('button-danger')
+      $el.classList.remove('button-primary')
+      arhives.push({id, title})
+    }
+
+    localStorage.setItem('arhives', JSON.stringify(arhives))
+  }  
    
 } 
