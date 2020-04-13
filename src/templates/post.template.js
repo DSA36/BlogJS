@@ -10,9 +10,9 @@ export function renderPost(post, options = {}) {
     ? `<button class ="button-round button-small button-danger" data-id="${post.id}" data-title="${post.title}" data-fav="fav">Удалить</button>`
     : `<button class ="button-round button-small button-primary" data-id="${post.id}" data-title="${post.title}" data-fav="fav">Сохранить</button>`
         
-    const buttonArh = candidateArh
-      ? `<button class ="button-round button-small button-danger" data-id="${post.id}" data-title="${post.title}" data-arh="arh">Из архива</button>`
-      : `<button class ="button-round button-small button-primary" data-id="${post.id}" data-title="${post.title}" data-arh="arh">В архив</button>`
+  const buttonArh = candidateArh
+    ? `<button class ="button-round button-small button-danger" data-id="${post.id}" data-title="${post.title}" data-arh="arh">Из архива</button>`
+    : `<button class ="button-round button-small button-primary" data-id="${post.id}" data-title="${post.title}" data-arh="arh">В архив</button>`
         
   return `
     <div class="panel">

@@ -36,9 +36,9 @@ function buttonHandler(event) {
     
   if (fav) {
     let favorites = JSON.parse(localStorage.getItem('favorites')) || []
-    const candidate = favorites.find(p => p.id === id)
+    const candidateFav = favorites.find(p => p.id === id)
     
-    if (candidate) {
+    if (candidateFav) {
       // удалить
       $el.textContent = 'Сохранить'
       $el.classList.add('button-primary')
@@ -57,9 +57,10 @@ function buttonHandler(event) {
 
   if (arh) {
     let arhives = JSON.parse(localStorage.getItem('arhives')) || []
-    const candidate = arhives.find(p => p.id === id)
+    const candidateArh = arhives.find(p => p.id === id)
+    console.log('candidateArh', candidateArh)
     
-    if (candidate) {
+    if (candidateArh) {
       // удалить
       $el.textContent = 'В архив'
       $el.classList.add('button-primary')
