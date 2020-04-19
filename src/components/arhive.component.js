@@ -34,8 +34,7 @@ async function linkClickHandler(event) {
 
     const post = await apiService.fetchPostById(postId)
     this.loader.hide()
-
-    this.$el.insertAdjacentHTML('afterbegin', renderPost(post, {withButton: false}))
+    this.$el.insertAdjacentHTML('afterbegin', renderPost(post,  {withButton: false}))
   }
 }
 

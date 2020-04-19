@@ -42,8 +42,6 @@ class ApiService {
   }
 }
 
-
-
 async function useRequest(request) {
   const response = await fetch(request)
   return await response.json()
